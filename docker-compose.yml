@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:16-alpine
+    container_name: atlas-db
+    restart: always
+    environment:
+      POSTGRES_DB: atlas_gmarket
+      POSTGRES_USER: atlas_admin
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-dev_secret_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U atlas_admin -d atlas_gmarket"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: atlas-cache
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: atlas-backend
+    restart: always
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 4000
+      DATABASE_URL: postgres://atlas_admin:${DB_PASSWORD:-dev_secret_password}@database:5432/atlas_gmarket
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "4000:4000"
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: atlas-frontend
+    restart: always
+    environment:
+      NEXT_PUBLIC_API_URL: ${API_URL:-http://localhost:4000}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  redis_data:
