@@ -1,2 +1,13 @@
-# atlas-g-market
-je veux qu'on travail sur une application de mise en relation entre l'offre et la demande donc dans tout donc une application ou on peut tout chercher, et tout vendre ou disponibiliser que ce soit des produits, des emploie, des neufs, d'occasion,... Donc tout on peut discuter pour clarifier l'idée
+# Atlas G-Market - Backend API
+
+Bienvenue sur le backend de **Atlas G-market**, la plateforme globale de mise en relation entre l'offre et la demande (produits, emplois, services, neuf, occasion).
+
+## 🚀 Stack Technique
+
+- **Runtime** : Node.js (v18+)
+- **Langage** : TypeScript
+- **Framework** : Express.js
+- **Sécurité & Middlewares** : Helmet, CORS, Express JSON parser
+- **Tests** : Jest, TS-Jest
+
+## 📁 Architecture du Projet
