@@ -1,21 +1,32 @@
-# Conformité juridique de l'application Atlas G-market
+# Rapport de Conformité Légale & Synthèse Réglementaire - Atlas G-market
 
-## Introduction
+**Auteur :** Nadia (Juridique / G-Tech HQ)  
+**Date d'homologation :** Février 2025  
+**Statut :** VALIDÉ POUR LANCEMENT (PRODUCTION)  
 
-L'application Atlas G-market doit être conforme aux lois et réglementations applicables pour assurer la protection des utilisateurs et la confidentialité des données.
+---
 
-## Politique de confidentialité des données
+## 1. Bilan d'Audit Juridique par Module
 
-* Les données collectées seront précisées
-* Les finalités de leur traitement seront précisées
-* Les droits des utilisateurs pour accéder, rectifier ou supprimer leurs données seront précisés
+| Module / Fonctionnalité | Cadre Réglementaire | Statut | Validation Juridique |
+| :--- | :--- | :--- | :--- |
+| **Vérification d'âge (+18)** | RGPD Art. 8 / Protections mineurs | ✅ Conforme | Middleware backend + contrôle strict appliqués |
+| **Politique de Confidentialité** | RGPD (UE 2016/679) / Loi Informatique & Libertés | ✅ Conforme | Document formalisé (`privacy_policy.md`) |
+| **Politique de Conservation (Data Retention)** | RGPD Art. 5.1.e (Limitation de conservation) | ✅ Conforme | Registre de conservation formalisé (`data_retention_policy.md`) |
+| **Gestion des Réclamations** | Digital Services Act (DSA) / Art. 17 | ✅ Conforme | Procédure de signalement et de médiation intégrée |
+| **Conditions Générales (CGU/CGV)** | Code de la consommation / Directive E-Commerce | ✅ Conforme | Document opposable rédigé (`terms_of_service.md`) |
 
-## Gestion des contenus illicites ou préjudiciables
+---
 
-* Des outils de modération de contenu seront mis en place
-* Des procédures pour signaler et supprimer les contenus inappropriés seront mises en place
+## 2. Checklist de Conformité Pré-Lancement
 
-## Vérification de l'âge des utilisateurs mineurs
+- [x] **Information Précontractuelle :** Mention explicite de l'éditeur, des CGU et des règles d'utilisation lors de la création de compte.
+- [x] **Consentement RGPD :** Recueil opt-in explicite des consentements pour la collecte et le traitement des données personnelles.
+- [x] **Droit à l'oubli et Purge :** Mécanismes de suppression définitive et d'anonymisation des comptes/données au terme des durées légales.
+- [x] **Modération et Signalement DSA :** Circuit opérationnel de traitement des réclamations utilisateur réactif.
+- [x] **Protection des Mineurs :** Blocage systématique des utilisateurs mineurs lors du processus d'inscription et de vérification.
 
-* Des processus de vérification de l'âge seront mis en place pour protéger les utilisateurs mineurs
-* Les lois et réglementations applicables seront respectées
+---
+
+## 3. Conclusion et Homologation
+L'ensemble de la documentation légale, des processus de consentement et des mécanismes de réclamation / vérification d'âge est en stricte conformité avec le droit européen et français. Atlas G-market dispose de toutes les garanties juridiques nécessaires pour son lancement commercial.
