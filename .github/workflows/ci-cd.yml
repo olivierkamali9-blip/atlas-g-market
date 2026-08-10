@@ -1,10 +1,10 @@
-name: CI/CD Pipeline
+name: Atlas G-market CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
@@ -14,44 +14,26 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
       - run: npm ci
       - run: npm run test:unit
       - run: npm run test:integration
       - run: npm run test:e2e
 
-  deploy-staging:
+  deploy:
     needs: test
     runs-on: ubuntu-latest
-    environment:
-      name: staging
-      url: https://atlas-g-market-staging.vercel.app/
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
       - uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-args: '--prod'
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          scope: ${{ secrets.VERCEL_SCOPE }}
-          github-comment: false
-          alias-domains: |
-            atlas-g-market-staging.vercel.app
-
-  deploy-production:
-    needs: deploy-staging
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://atlas-g-market.vercel.app/
-    steps:
-      - uses: actions/checkout@v4
-      - uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          scope: ${{ secrets.VERCEL_SCOPE }}
-          github-comment: false
-          alias-domains: |
-            atlas-g-market.vercel.app
