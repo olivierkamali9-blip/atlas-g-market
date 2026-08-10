@@ -1,40 +1,26 @@
-import express, { Express, Request, Response, NextFunction } from 'express';
+import express from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
-
+import userRoutes from './routes/userRoutes';
 import announcementRoutes from './routes/announcementRoutes';
 import searchRoutes from './routes/searchRoutes';
 import messagingRoutes from './routes/messagingRoutes';
+import marketplaceRoutes from './routes/marketplaceRoutes';
+import claimRoutes from './routes/claimRoutes';
 
-const app: Express = express();
+const app = express();
 
-// Middlewares globaux
-app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-// Healthcheck
-app.get('/health', (req: Request, res: Response) => {
-  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString() });
-});
-
-// Enregistrement des API
+app.use('/api/users', userRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/search', searchRoutes);
-app.use('/api/messages', messagingRoutes);
+app.use('/api/messaging', messagingRoutes);
+app.use('/api/marketplace', marketplaceRoutes);
+app.use('/api/claims', claimRoutes);
 
-// Gestionnaire de routes non trouvées
-app.use((req: Request, res: Response) => {
-  res.status(404).json({ error: 'Route non trouvée' });
-});
-
-// Middleware d'erreur global
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error('[Error Handler]:', err.message);
-  res.status(500).json({
-    error: 'Erreur interne du serveur',
-    details: process.env.NODE_ENV === 'development' ? err.message : undefined
-  });
+app.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date() });
 });
 
 export default app;
