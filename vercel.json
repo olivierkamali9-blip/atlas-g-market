@@ -1,18 +1,16 @@
 {
   "version": 2,
-  "env": {
-    "NODE_ENV": "production"
-  },
   "builds": [
     {
-      "src": "src/server.ts",
-      "use": "@vercel/static-build"
+      "src": "package.json",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/server.ts"
+      "dest": "src/server.ts",
+      "headers": { "Content-Type": "application/json" }
     }
   ]
 }
