@@ -3,14 +3,15 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/node"
+      "use": "@vercel/next",
+      "config": { "installCommand": "npm install" }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/server.ts",
-      "headers": { "Content-Type": "application/json" }
+      "dest": "/frontend/src/App.tsx",
+      "headers": { "Content-Type": "text/html; charset=utf-8" }
     }
   ]
 }
