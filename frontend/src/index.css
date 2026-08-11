@@ -1,49 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-:root {
-  --bg-slate-900: #0f172a;
-  --bg-slate-800: #1e293b;
-  --bg-slate-700: #334155;
-  --border-slate-600: #475569;
-  --text-slate-50: #f8fafc;
-  --text-slate-400: #94a3b8;
-  --emerald-500: #10b981;
-  --emerald-600: #059669;
-  --emerald-400: #34d399;
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 1em;
+  text-align: center;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+header img {
+  width: 50px;
+  height: 50px;
+  margin-right: 1em;
 }
 
-body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: var(--bg-slate-900);
-  color: var(--text-slate-50);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 1em;
+  text-align: center;
+  clear: both;
 }
 
-.btn-emerald {
-  background-color: var(--emerald-500);
-  color: #ffffff;
-  padding: 0.625rem 1.25rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.btn-emerald:hover {
-  background-color: var(--emerald-600);
-}
-
-.card-slate {
-  background-color: var(--bg-slate-800);
-  border: 1px solid var(--border-slate-600);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
+footer img {
+  width: 50px;
+  height: 50px;
+  margin-left: 1em;
 }
