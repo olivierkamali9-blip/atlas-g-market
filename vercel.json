@@ -1,17 +1,15 @@
 {
   "version": 2,
-  "builds": [
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/next",
-      "config": { "installCommand": "npm install" }
-    }
-  ],
-  "routes": [
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
     {
-      "src": "/(.*)",
-      "dest": "/frontend/src/App.tsx",
-      "headers": { "Content-Type": "text/html; charset=utf-8" }
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ]
 }
