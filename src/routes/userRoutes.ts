@@ -1,16 +1,13 @@
 import express from 'express';
-import { ageVerification } from '../middlewares/ageVerification';
+import { getUserProfile, updateUserProfile, deleteUserProfile } from '../controllers/userController';
+import { authenticate, authorize } from '../middlewares/authMiddleware';
+import { auditLog } from '../middlewares/auditMiddleware';
 
 const router = express.Router();
 
-router.post('/register', ageVerification, (req, res) => {
-  // Logique d'inscription
-  res.status(201).json({ message: 'User registered successfully' });
-});
-
-router.post('/login', ageVerification, (req, res) => {
-  // Logique de connexion
-  res.status(200).json({ message: 'Login successful' });
-});
+// Routes pour le profil utilisateur
+router.get('/profile/:userId', authenticate, authorize(['user', 'admin']), auditLog('GET_USER_PROFILE'), getUserProfile);
+router.put('/profile/:userId', authenticate, authorize(['user', 'admin']), auditLog('UPDATE_USER_PROFILE'), updateUserProfile);
+router.delete('/profile/:userId', authenticate, authorize(['user', 'admin']), auditLog('DELETE_USER_PROFILE'), deleteUserProfile);
 
 export default router;
