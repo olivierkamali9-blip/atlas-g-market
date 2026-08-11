@@ -1,17 +1,9 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#2f4f7f', // Slate
-    },
-    secondary: {
-      main: '#3e8e41', // Emerald
-    },
-  },
-  typography: {
-    fontFamily: 'Open Sans',
-  },
-});
+// Couleurs du thème Modern Slate & Emerald
+const theme = {
+  primaryColor: '#2E4053',
+  secondaryColor: '#34C759',
+  backgroundColor: '#F7F7F7',
+  textColor: '#333333',
+};
 
 export default theme;
