@@ -1,9 +1,14 @@
-const theme = {
-  primaryColor: '#2f4f7f', // Slate
-  secondaryColor: '#3e8e41', // Emerald
-  fontFamily: 'Arial, sans-serif',
-  backgroundColor: '#f0f0f0',
-  textColor: '#333333',
-};
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#2f4f7f', // Slate
+    },
+    secondary: {
+      main: '#008000', // Emerald
+    },
+  },
+});
 
 export default theme;
