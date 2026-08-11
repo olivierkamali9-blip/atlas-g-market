@@ -1,20 +1,11 @@
 import React from 'react';
-import logo from '../assets/gtech-logo.png';
+import { Footer } from './Footer';
 
-const AtlasLayout = () => {
+const AtlasLayout = ({ children }) => {
   return (
     <div>
-      <header>
-        <img src={logo} alt="G-Tech Logo" />
-        <h1>Atlas G-Market</h1>
-      </header>
-      <main>
-        {/* Contenu de la page */}
-      </main>
-      <footer>
-        <p>Produit G-Tech</p>
-        <img src={logo} alt="G-Tech Logo" />
-      </footer>
+      {children}
+      <Footer />
     </div>
   );
 };
