@@ -3,22 +3,26 @@ import { AuditLogService } from '../services/auditLogService';
 
 const auditLogService = new AuditLogService();
 
-export const auditLog = (actionType: string) => {
+export const auditLog = (action: string) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const originalSend = res.send;
-            res.send = function (body: any) {
-                auditLogService.logAction(actionType, req.user?.id || 'anonymous', {
+            const userId = req.user?.id;
+            const targetId = req.params.id;
+
+            await auditLogService.createLog({
+                action,
+                userId,
+                targetId,
+                metadata: {
                     ip: req.ip,
-                    userAgent: req.headers['user-agent'],
-                    body: body
-                });
-                originalSend.call(this, body);
-            };
-            next();
+                    userAgent: req.get('User-Agent'),
+                    path: req.path,
+                    method: req.method
+                }
+            });
         } catch (error) {
-            console.error('Erreur dans auditLog middleware:', error);
-            next();
+            console.error('Erreur lors de la création du log d\'audit:', error);
         }
+        next();
     };
 };
