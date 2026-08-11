@@ -1,24 +1,18 @@
-import express, { Request, Response } from 'express';
-import { announcementService } from '../services/announcementService';
+import express from 'express';
+import { authenticate } from '../middlewares/authMiddleware';
+import { authorizeModerator } from '../middlewares/authMiddleware';
+import { validateAnnouncement } from '../middlewares/validationMiddleware';
+import { getAnnouncements, getAnnouncementById, updateAnnouncement, deleteAnnouncement } from '../controllers/announcementController';
+import { auditLog } from '../middlewares/auditMiddleware';
 
 const router = express.Router();
 
-router.post('/annonces', async (req: Request, res: Response) => {
-  try {
-    const announcement = await announcementService.createAnnouncement(req.body);
-    res.status(201).json(announcement);
-  } catch (error) {
-    res.status(500).json({ message: 'Erreur lors de la création de l\'annonce' });
-  }
-});
+// Routes publiques
+router.get('/', getAnnouncements);
+router.get('/:id', getAnnouncementById);
 
-router.get('/annonces', async (req: Request, res: Response) => {
-  try {
-    const announcements = await announcementService.getAnnouncements();
-    res.json(announcements);
-  } catch (error) {
-    res.status(500).json({ message: 'Erreur lors de la récupération des annonces' });
-  }
-});
+// Routes protégées (nécessitent une authentification)
+router.put('/:id', authenticate, validateAnnouncement, auditLog('UPDATE_ANNOUNCEMENT'), updateAnnouncement);
+router.delete('/:id', authenticate, auditLog('DELETE_ANNOUNCEMENT'), deleteAnnouncement);
 
 export default router;
