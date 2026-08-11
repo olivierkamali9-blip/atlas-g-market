@@ -1,28 +1,31 @@
-import { PrismaClient } from '@prisma/client';
+import { AuditLog } from '../models/auditLogModel';
 
-const prisma = new PrismaClient();
+export interface AuditLogData {
+    action: string;
+    userId?: string;
+    targetId?: string;
+    metadata?: any;
+}
 
 export class AuditLogService {
-    async logAction(actionType: string, userId: string, metadata: any) {
-        return await prisma.auditLog.create({
-            data: {
-                actionType,
-                userId,
-                metadata: metadata,
-                timestamp: new Date()
-            }
+    async createLog(logData: AuditLogData) {
+        const log = new AuditLog({
+            action: logData.action,
+            userId: logData.userId,
+            targetId: logData.targetId,
+            metadata: logData.metadata,
+            timestamp: new Date()
         });
+
+        await log.save();
+        return log;
     }
 
-    async getAuditLogs(userId?: string, actionType?: string) {
-        return await prisma.auditLog.findMany({
-            where: {
-                userId,
-                actionType
-            },
-            orderBy: {
-                timestamp: 'desc'
-            }
-        });
+    async getLogsByUser(userId: string) {
+        return AuditLog.find({ userId }).sort({ timestamp: -1 });
+    }
+
+    async getLogsByAction(action: string) {
+        return AuditLog.find({ action }).sort({ timestamp: -1 });
     }
 }
