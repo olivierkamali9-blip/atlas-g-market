@@ -1,10 +1,16 @@
 import React from 'react';
-import { Footer } from './Footer';
+import Footer from './Footer';
 
-const AtlasLayout = ({ children }) => {
+interface AtlasLayoutProps {
+  children: React.ReactNode;
+}
+
+export const AtlasLayout: React.FC<AtlasLayoutProps> = ({ children }) => {
   return (
-    <div>
-      {children}
+    <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-900">
+      <main className="flex-grow">
+        {children}
+      </main>
       <Footer />
     </div>
   );
