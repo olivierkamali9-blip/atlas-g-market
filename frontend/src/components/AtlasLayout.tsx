@@ -1,13 +1,16 @@
-import React from 'react';
-import { ThemeProvider } from '@material-ui/core/styles';
+// Import du thème
 import theme from '../styles/theme';
 
-const AtlasLayout = ({ children }) => {
+// Application du thème à l'interface utilisateur
+function AtlasLayout() {
   return (
-    <ThemeProvider theme={theme}>
-      {children}
-    </ThemeProvider>
+    <div style={{
+      backgroundColor: theme.backgroundColor,
+      color: theme.textColor,
+    }}>
+      {/* Contenu de l'interface utilisateur */}
+    </div>
   );
-};
+}
 
 export default AtlasLayout;
