@@ -1,19 +1,17 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
-export interface AuditLog extends Document {
-    action: string;
-    userId?: string;
-    targetId?: string;
-    metadata?: any;
-    timestamp: Date;
+export interface IAuditLog extends Document {
+  actionType: string;
+  userId: string;
+  details: string;
+  timestamp: Date;
 }
 
 const AuditLogSchema: Schema = new Schema({
-    action: { type: String, required: true },
-    userId: { type: String },
-    targetId: { type: String },
-    metadata: { type: mongoose.Schema.Types.Mixed },
-    timestamp: { type: Date, default: Date.now }
+  actionType: { type: String, required: true },
+  userId: { type: String, required: true },
+  details: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now },
 });
 
-export const AuditLog = mongoose.model<AuditLog>('AuditLog', AuditLogSchema);
+export default mongoose.model<IAuditLog>('AuditLog', AuditLogSchema);
