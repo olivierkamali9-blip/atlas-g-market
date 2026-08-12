@@ -50,3 +50,5 @@ bower_components/
 
 # Docker
 docker-compose.override.yml
+.vercel
+.env
