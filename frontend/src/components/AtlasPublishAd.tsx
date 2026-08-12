@@ -7,29 +7,18 @@ const AtlasPublishAd = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Enregistrer l'annonce dans la base de données
+    // Enregistrer l'annonce
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Titre :
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-      </label>
-      <label>
-        Description :
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-      </label>
-      <label>
-        Catégorie :
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="">Sélectionner une catégorie</option>
-          <option value="emploi">Emploi</option>
-          <option value="produit">Produit</option>
-          <option value="service">Service</option>
-        </select>
-      </label>
-      <button type="submit">Publier</button>
+      <label htmlFor="ad-title">Titre</label>
+      <input id="ad-title" type="text" placeholder="Titre de l'annonce" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <label htmlFor="ad-desc">Description</label>
+      <textarea id="ad-desc" rows={4} placeholder="Décris ton annonce" value={description} onChange={(e) => setDescription(e.target.value)} />
+      <label htmlFor="ad-cat">Catégorie</label>
+      <input id="ad-cat" type="text" placeholder="Ex : Électronique, Immobilier..." value={category} onChange={(e) => setCategory(e.target.value)} />
+      <button className="atlas-btn" type="submit">Publier</button>
     </form>
   );
 };
