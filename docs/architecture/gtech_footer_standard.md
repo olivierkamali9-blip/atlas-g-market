@@ -1,12 +1,18 @@
-# Standard Footer G-Tech HQ ("Powered by G-Tech")
+# Standard Pied de Page Global G-Tech (G-Tech Footer Standard)
 
 ## Objectif
-Harmoniser et automatiser l'intégration du pied de page officiel ("Powered by G-Tech") sur l'ensemble des plateformes actuelles et futures de G-Tech HQ.
+Assurer une identité de marque cohérente et professionnelle sur l'ensemble de l'écosystème d'applications G-Tech, avec la mention obligatoire **"Powered by G-Tech"** et le logo institutionnel.
 
-## Composants de la signature G-Tech
-1. **Mention obligatoire** : `Powered by G-Tech`
-2. **Logo d'entreprise** : Logo officiel G-Tech avec lien de redirection vers la plateforme centrale HQ.
-3. **Pied de page dynamique** : Année de copyright automatique (`new Date().getFullYear()`).
-4. **Liens de conformité légale** : Conditions Générales (CGU/CGV), Politique de Confidentialité, Protection des Données (RGPD).
+## Principes Directeurs
+1. **Périmètre d'application** : Requis sur 100 % des applications web produites par G-Tech HQ.
+2. **Éléments Obligatoires** :
+   - Badge / Logo G-Tech HQ.
+   - Mention expresse "Powered by G-Tech HQ".
+   - Liens légaux (CGU, Confidentialité, Conformité).
+   - Indication du copyright dynamique.
+3. **Adaptabilité** :
+   - Support des thèmes sombre (`dark`) et clair (`light`).
+   - Injection dynamique du nom du produit via la propriété `appName`.
 
-## Modèle de composant réutilisable (React / TypeScript)
+## Recommandations d'Intégration
+Le composant est disponible dans `templates/footer/GTechFooter.tsx` pour être importé dans le layout principal de chaque projet React / Next.js de l'organisation.
