@@ -7,30 +7,60 @@ interface AtlasLayoutProps {
 
 export const AtlasLayout: React.FC<AtlasLayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-950 text-gray-100">
-      <header className="bg-gray-900 border-b border-gray-800 py-4 px-6 flex justify-between items-center sticky top-0 z-50">
-        <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center font-extrabold text-white text-base shadow-lg shadow-blue-500/20">
-            A
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100vh',
+      backgroundColor: '#090D16',
+      color: '#F8FAFC',
+      fontFamily: 'Inter, system-ui, -apple-system, sans-serif'
+    }}>
+      {/* En-tête supérieur */}
+      <header style={{
+        backgroundColor: '#0F172A',
+        borderBottom: '1px solid #1E293B',
+        padding: '1rem 2rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: 50
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{
+            width: '36px',
+            height: '36px',
+            borderRadius: '10px',
+            background: 'linear-gradient(135deg, #2563EB, #7C3AED)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#FFFFFF',
+            fontWeight: 'bold',
+            fontSize: '1.2rem',
+            boxShadow: '0 2px 10px rgba(37, 99, 235, 0.4)'
+          }}>
+            G
           </div>
-          <div className="flex flex-col">
-            <span className="font-bold text-white tracking-tight text-lg leading-tight">Atlas G-market</span>
-            <span className="text-[10px] text-blue-400 font-medium -mt-0.5">Plateforme universelle d'échange</span>
+          <div>
+            <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '700', color: '#F8FAFC' }}>
+              Atlas G-market
+            </h1>
+            <span style={{ fontSize: '0.75rem', color: '#38BDF8', fontWeight: '500' }}>
+              Produit G-Tech
+            </span>
           </div>
-        </div>
-        <div className="flex items-center space-x-2 text-xs font-semibold bg-blue-950/60 text-blue-300 px-3 py-1 rounded-full border border-blue-800/50">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Produit G-Tech</span>
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
+      {/* Contenu principal */}
+      <main style={{ flex: 1, padding: '2rem 1rem', maxWidth: '1200px', width: '100%', margin: '0 auto', boxSizing: 'border-box' }}>
         {children}
       </main>
 
+      {/* Pied de page global */}
       <Footer />
     </div>
   );
 };
-
-export default AtlasLayout;
