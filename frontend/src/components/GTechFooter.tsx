@@ -3,7 +3,10 @@ import React from 'react';
 const GTechFooter = () => {
   return (
     <footer>
-      <p>Powered by G-Tech</p>
+      <div>
+        <img src="logo-gtech.png" alt="Logo G-Tech" />
+        <p>Powered by G-Tech</p>
+      </div>
     </footer>
   );
 };
