@@ -1,12 +1,12 @@
 import React from 'react';
-import AtlasLayout from './components/AtlasLayout';
-import Routes from './routes';
+import GTechFooter from './components/GTechFooter';
 
 const App = () => {
   return (
-    <AtlasLayout>
-      <Routes />
-    </AtlasLayout>
+    <div>
+      {/* Contenu de l'application */}
+      <GTechFooter />
+    </div>
   );
 };
 
