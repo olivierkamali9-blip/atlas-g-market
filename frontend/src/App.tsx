@@ -1,11 +1,14 @@
 import React from 'react';
-import GTechFooter from './components/GTechFooter';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import AtlasLayout from './components/AtlasLayout';
 
 const App = () => {
   return (
     <div>
-      {/* Contenu de l'application */}
-      <GTechFooter />
+      <Header />
+      <AtlasLayout />
+      <Footer />
     </div>
   );
 };
