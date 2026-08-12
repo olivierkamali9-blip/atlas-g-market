@@ -1,15 +1,16 @@
 import React from 'react';
-import GTechFooter from '../../templates/footer/GTechFooter';
 
-export const Footer: React.FC = () => {
-  const links = [
-    { label: 'Conditions d\'utilisation', href: '/legal/terms' },
-    { label: 'Politique de confidentialité', href: '/legal/privacy' },
-    { label: 'Conformité & Âge', href: '/legal/compliance' },
-    { label: 'Support & Signaler', href: '/support' },
-  ];
-
-  return <GTechFooter appName="Atlas G-market" theme="dark" customLinks={links} />;
+const Footer = () => {
+  return (
+    <footer>
+      <p>Atlas G-market &copy; 2026</p>
+      <ul>
+        <li><a href="#">Conditions d'utilisation</a></li>
+        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </footer>
+  );
 };
 
 export default Footer;
