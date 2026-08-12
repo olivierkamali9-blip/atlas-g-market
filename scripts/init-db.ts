@@ -1,20 +1,13 @@
-import fs from 'fs';
-import path from 'path';
-import { pool } from '../src/config/database';
+import pool from '../src/config/neonDatabase';
 
-async function initDB() {
-  console.log('Initialisation du schéma sur la base Neon PostgreSQL...');
-  try {
-    const schemaPath = path.join(__dirname, '../src/db/schema.sql');
-    const sql = fs.readFileSync(schemaPath, 'utf-8');
-    await pool.query(sql);
-    console.log('✅ Base de données initialisée avec succès sur Neon !');
-  } catch (error) {
-    console.error('❌ Échec de l\'initialisation de la base de données :', error);
-    process.exit(1);
-  } finally {
-    await pool.end();
-  }
+async function initDb() {
+  await pool.query(`CREATE TABLE IF NOT EXISTSannonce (
+    id SERIAL PRIMARY KEY,
+    titre VARCHAR(255) NOT NULL,
+    contenu TEXT NOT NULL
+  );`);
+
+  console.log('Base de données initialisée avec succès');
 }
 
-initDB();
+initDb();
