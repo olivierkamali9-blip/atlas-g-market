@@ -1,34 +1,31 @@
 import React from 'react';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  className?: string;
+}
+
+export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
   return (
-    <footer className="bg-slate-900 border-t border-slate-800 text-slate-400 py-8 px-4 text-sm mt-auto">
+    <footer className={`bg-gray-900 text-gray-300 py-6 px-4 border-t border-gray-800 ${className}`}>
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center font-bold text-emerald-400">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center font-bold text-white text-sm shadow-md">
             G
           </div>
-          <div>
-            <p className="font-semibold text-slate-200 flex items-center gap-2">
-              Atlas G-market
-              <span className="text-xs font-normal px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                Produit G-Tech
-              </span>
-            </p>
-            <p className="text-xs text-slate-500">Plateforme universelle de mise en relation de l'offre et de la demande.</p>
-          </div>
+          <span className="font-semibold text-white tracking-wide text-sm">G-Tech HQ</span>
         </div>
+        
+        <p className="text-xs text-gray-400 text-center md:text-left">
+          © {new Date().getFullYear()} Atlas G-market. Tous droits réservés.
+        </p>
 
-        <div className="flex items-center space-x-6 text-xs">
-          <a href="/legal/terms" className="hover:text-emerald-400 transition-colors">Conditions Générales</a>
-          <a href="/legal/privacy" className="hover:text-emerald-400 transition-colors">Confidentialité</a>
-          <a href="/legal/compliance" className="hover:text-emerald-400 transition-colors">Conformité Légale</a>
-        </div>
-
-        <div className="text-xs text-slate-500">
-          © {new Date().getFullYear()} G-Tech. Tous droits réservés.
+        <div className="flex items-center space-x-2 text-xs font-medium bg-gray-800/80 px-3 py-1.5 rounded-full border border-gray-700/60">
+          <span className="text-gray-400">Powered by</span>
+          <span className="text-blue-400 font-bold tracking-wider uppercase text-[11px]">G-Tech</span>
         </div>
       </div>
     </footer>
   );
 };
+
+export default Footer;
