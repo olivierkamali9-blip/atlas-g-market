@@ -1,70 +1,68 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { userService } from '../../src/services/userService';
+import { validateUserProfile, updateUserPreferences, checkUserAgeCompliance } from '../../src/services/userService';
 
-describe('Validation des fonctionnalités de Profil Utilisateur', () => {
+describe('Validation des fonctionnalités de profil utilisateur - Atlas G-market', () => {
+  let mockUserProfile: {
+    id: string;
+    email: string;
+    fullName: string;
+    birthDate: string;
+    phone: string;
+    isVerified: boolean;
+    preferences: {
+      notificationsEnabled: boolean;
+      dataSharingConsent: boolean;
+      preferredLanguage: string;
+    };
+  };
+
   beforeEach(() => {
-    // Réinitialisation de l'état simulé des utilisateurs avant chaque test
-    userService.clearMockUsers?.();
-  });
-
-  it('doit valider la création et la lecture d un profil complet', async () => {
-    const newUser = await userService.createUser({
+    mockUserProfile = {
+      id: 'usr_12345',
       email: 'jean.dupont@example.com',
-      name: 'Jean Dupont',
+      fullName: 'Jean Dupont',
+      birthDate: '1990-05-15',
       phone: '+33612345678',
-      role: 'user',
-      isAgeVerified: true,
-    });
-
-    expect(newUser).toBeDefined();
-    expect(newUser.id).toBeDefined();
-    expect(newUser.email).toBe('jean.dupont@example.com');
-    expect(newUser.isAgeVerified).toBe(true);
+      isVerified: true,
+      preferences: {
+        notificationsEnabled: true,
+        dataSharingConsent: true,
+        preferredLanguage: 'fr',
+      },
+    };
   });
 
-  it('doit autoriser la mise à jour des informations de profil (bio, téléphone, avatar)', async () => {
-    const user = await userService.createUser({
-      email: 'marie.curie@example.com',
-      name: 'Marie Curie',
-      phone: '+33600000000',
-    });
-
-    const updated = await userService.updateProfile(user.id, {
-      bio: 'Passionnée de micro-services et d opportunités d emploi local.',
-      phone: '+33699887766',
-      avatarUrl: 'https://atlas-g-market.vercel.app/avatars/marie.png',
-      location: 'Paris, France',
-    });
-
-    expect(updated.bio).toContain('micro-services');
-    expect(updated.phone).toBe('+33699887766');
-    expect(updated.location).toBe('Paris, France');
+  it('devrait valider correctement un profil utilisateur complet et conforme', () => {
+    const result = validateUserProfile(mockUserProfile);
+    expect(result.isValid).toBe(true);
+    expect(result.errors).toHaveLength(0);
   });
 
-  it('doit rejeter un format de téléphone invalide dans le profil', async () => {
-    const user = await userService.createUser({
-      email: 'test.invalid@example.com',
-      name: 'Testeur Format',
-    });
-
-    await expect(
-      userService.updateProfile(user.id, { phone: 'numero-invalide-123' })
-    ).rejects.toThrow();
+  it('devrait rejeter un profil avec un email invalide ou un nom vide', () => {
+    const invalidProfile = { ...mockUserProfile, email: 'email-invalide', fullName: '' };
+    const result = validateUserProfile(invalidProfile);
+    expect(result.isValid).toBe(false);
+    expect(result.errors).toContain('Email invalide');
+    expect(result.errors).toContain('Le nom complet est requis');
   });
 
-  it('doit enregistrer et valider les préférences de notification du profil', async () => {
-    const user = await userService.createUser({
-      email: 'alex.dev@example.com',
-      name: 'Alex Dev',
+  it('devrait vérifier le respect de la majorité légale (18 ans et plus)', () => {
+    const adultUser = checkUserAgeCompliance('2000-01-01');
+    const minorUser = checkUserAgeCompliance('2012-06-20');
+
+    expect(adultUser.isEligible).toBe(true);
+    expect(minorUser.isEligible).toBe(false);
+    expect(minorUser.reason).toContain('L\'utilisateur doit avoir au moins 18 ans');
+  });
+
+  it('devrait mettre à jour les préférences de confidentialité et de notification sans altérer les autres données', () => {
+    const updated = updateUserPreferences(mockUserProfile.id, {
+      notificationsEnabled: false,
+      dataSharingConsent: false,
     });
 
-    const preferences = await userService.updatePreferences(user.id, {
-      emailNotifications: true,
-      pushNotifications: false,
-      preferredCategories: ['Emploi', 'Services', 'Électronique'],
-    });
-
-    expect(preferences.emailNotifications).toBe(true);
-    expect(preferences.preferredCategories).toContain('Emploi');
+    expect(updated.preferences.notificationsEnabled).toBe(false);
+    expect(updated.preferences.dataSharingConsent).toBe(false);
+    expect(updated.preferences.preferredLanguage).toBe('fr');
   });
 });
