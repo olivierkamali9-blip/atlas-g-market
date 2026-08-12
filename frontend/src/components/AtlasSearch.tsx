@@ -10,11 +10,9 @@ const AtlasSearch = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Rechercher :
-        <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} />
-      </label>
-      <button type="submit">Rechercher</button>
+      <label htmlFor="search-query">Rechercher</label>
+      <input id="search-query" type="search" placeholder="Que cherches-tu ?" value={query} onChange={(e) => setQuery(e.target.value)} />
+      <button className="atlas-btn" type="submit">Rechercher</button>
     </form>
   );
 };
