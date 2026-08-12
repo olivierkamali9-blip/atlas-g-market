@@ -10,11 +10,9 @@ const AtlasMessaging = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Message :
-        <textarea value={message} onChange={(e) => setMessage(e.target.value)} />
-      </label>
-      <button type="submit">Envoyer</button>
+      <label htmlFor="msg">Message</label>
+      <textarea id="msg" rows={3} placeholder="Écris ton message..." value={message} onChange={(e) => setMessage(e.target.value)} />
+      <button className="atlas-btn" type="submit">Envoyer</button>
     </form>
   );
 };
