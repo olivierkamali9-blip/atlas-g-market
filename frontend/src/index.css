@@ -1,26 +1,95 @@
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 1em;
+:root {
+  --void: #0B0E14;
+  --surface: #12161F;
+  --surface-2: #1B212D;
+  --line: #262E3D;
+  --accent: #4F8CFF;
+  --accent-bright: #6FA3FF;
+  --ivory: #EAEDF3;
+  --mute: #8891A3;
+  --good: #3FB980;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--ivory);
+}
+
+.atlas-header {
+  padding: 24px 20px;
+  border-bottom: 1px solid var(--line);
   text-align: center;
 }
-
-header img {
-  width: 50px;
-  height: 50px;
-  margin-right: 1em;
+.atlas-header h1 {
+  margin: 0;
+  font-size: 28px;
+  background: linear-gradient(90deg, var(--accent-bright), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-footer {
-  background-color: #333;
-  color: #fff;
-  padding: 1em;
+.atlas-container { max-width: 720px; margin: 0 auto; padding: 32px 20px; }
+
+.atlas-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.atlas-card h2 {
+  margin: 0 0 16px 0;
+  font-size: 17px;
+  color: var(--ivory);
+}
+
+.atlas-card label {
+  display: block;
+  font-size: 13px;
+  color: var(--mute);
+  margin-bottom: 6px;
+}
+.atlas-card input,
+.atlas-card textarea,
+.atlas-card select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ivory);
+  font-size: 14px;
+}
+.atlas-card input:focus,
+.atlas-card textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.atlas-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.atlas-btn:hover { background: var(--accent-bright); }
+
+.atlas-footer {
   text-align: center;
-  clear: both;
-}
-
-footer img {
-  width: 50px;
-  height: 50px;
-  margin-left: 1em;
+  padding: 24px 16px;
+  color: var(--mute);
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+  font-size: 13px;
 }
