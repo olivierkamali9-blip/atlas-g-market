@@ -1,66 +1,76 @@
-# Spécifications UI/UX — Catalogue Universel & Navigation Atlas G-market
+# Spécification UI/UX : Catalogue Universel Public & Menu de Publication Dynamic (Style Jumia / Alibaba)
 
-## 1. Principes Directeurs
-- **Accès Direct Sans Account (Zero Friction)** : Tout visiteur accède immédiatement au catalogue complet, au moteur de recherche et aux filtres dès la première seconde.
-- **Identité Visuelle** : Thème *Modern Slate & Emerald* (Fond Slate `#0f172a`, Accents Emerald `#10b981`, Survol Slate 800/700).
-- **Inspiration** : Standards d'ergonomie e-commerce grand public (Alibaba / Jumia).
+## 1. Vision UX & Principes Directeurs
+L'application **Atlas G-Market** est une plateforme universelle de mise en relation (Offre / Demande). Elle doit permettre de chercher et publier tout type d'annonce :
+- **Biens physiques** (Neufs & Occasion, High-Tech, Mode, Maison)
+- **Immobilier** (Vente, Location, Colocation)
+- **Emploi & Services** (Offres d'emploi, Freelance, Prestataires de services)
+- **Véhicules** (Vente, Location, Pièces)
 
----
-
-## 2. Structure de l'Interface Principale
-
-### A. En-tête (Header) & Barre de Recherche
-- **Logo** : Badge officiel G-Tech avec mention "Produit G-Tech".
-- **Barre de Recherche Globale** :
-  - Input large avec icône loupe (`SearchIcon`).
-  - Champ texte : *"Que cherchez-vous ? (Produit, véhicule, emploi, service...)"*.
-  - Bouton d'action Rapide : Filtre géographique / Localisation (Dropdown).
-- **Bouton Menu Hamburger** (à droite sur Mobile/Desktop) ouvrant le tiroir latéral.
-
-### B. Navigation Filtre par Catégories (Chips horizontaux)
-Défilable horizontalement sur mobile, aligné sous la recherche :
-- `[Tout]` (Par défaut)
-- `[Produits & Habillements]`
-- `[Véhicules & Auto]`
-- `[Services & Prestations]`
-- `[Emploi & Recrutement]`
-- `[Immobilier & Logement]`
-- `[Électronique & High-Tech]`
-- `[Occasion / Seconde main]`
-
-### C. Cartes d'Annonces du Catalogue (Grid 2 à 4 colonnes)
-Chaque carte d'annonce contient :
-1. **Visuel principal** : Photo/Illustration avec badge état (`Neuf`, `Occasion`, `Offre`, `Demande`).
-2. **Titre & Prix** : Emplacement clair, prix mis en avant en vert Émeraude `#10b981`.
-3. **Badge Vendeur** : `Vendeur Vérifié` (avec check émeraude) pour renforcer la confiance.
-4. **Localisation & Date** : Discret en bas de carte.
-5. **Zone d'Action Directe (Double contact)** :
-   - Bouton principal : **"Écrire au fournisseur"** (ouvre le module de tchat/messagerie).
-   - Bouton secondaire : **"Appeler / WhatsApp"** (dévoile/ouvre directement le numéro du fournisseur).
+### Objectifs d'expérience utilisateur :
+1. **Clarté visuelle instantanée** : Navigation par mégamenu latéral/supérieur inspirée des leaders e-commerce (Jumia/Alibaba) tout en restant moderne et fluide.
+2. **Recherche & Filtrage dynamique** : Les filtres s'adaptent au type de catégorie sélectionné (ex: kilomètres pour un véhicule, salaire pour un emploi, état pour un objet).
+3. **Publication simplifiée en 3 étapes** : Guide l'utilisateur dans le dépôt d'annonce sans surcharger l'écran.
 
 ---
 
-## 3. Tiroir Latéral / Menu de Navigation
+## 2. Design System & Charte Visuelle (Tokens UI)
 
-### État Déconnecté (Invité)
-- **Bannière d'incitation** : *"Publiez votre annonce gratuitement !"*
-- **Options du menu** :
-  - `Catalogue complet`
-  - `Publier une annonce` -> *Redirige vers la connexion/inscription prioritaire*.
-  - `Créer une alerte de recherche`
-  - `Se connecter / S'inscrire`
-  - `Aide & Support`
-  - `À propos de G-Tech HQ`
+### Palette de Couleurs
+- **Couleur Primaire (Action / Branding)** : `#E65100` (Orange vif dynamique style Marketplace) / `#0D47A1` (Bleu de confiance G-Tech)
+- **Couleur Secondaire (Highlights & Badges)** : `#2E7D32` (Vert Validation / Recommandé)
+- **Arrière-plans** :
+  - Fond global : `#F8F9FA`
+  - Cartes & Conteneurs : `#FFFFFF`
+  - Navbars / En-têtes : `#1A237E` (Fond sombre élégant) ou `#FFFFFF` (Clair)
+- **Typographie & Textes** :
+  - Titres principaux : `#212121`
+  - Textes secondaires : `#616161`
+  - Muted / Désactivé : `#9E9E9E`
+  - Bordures & Séparateurs : `#E0E0E0`
 
-### État Connecté (Utilisateur)
-- **En-tête Profil** : Avatar, nom de l'utilisateur, badge de statut.
-- **Section Publication** :
-  - `+ Publier un produit / bien`
-  - `+ Publier une offre d'emploi / service`
-  - `+ Déposer une recherche (Demande spécifique)`
-- **Espace Personnel** :
-  - `Mes annonces publiées`
-  - `Messagerie & Discussions` (avec compteur de messages non lus)
-  - `Mes recherches enregistrées / Favoris`
-  - `Mon profil & Paramètres`
-- **Pied du Menu** : Bouton `Déconnexion` et signature `Powered by G-Tech`.
+### Composants & Boutons
+- **Bouton Principal ("Publier une annonce")** : Gradient vibrant avec ombre portée douce (`box-shadow: 0 4px 12px rgba(230, 81, 0, 0.3)`), coins arrondis `8px`.
+- **Badges d'état** :
+  - *Neuf* : Fond `#E8F5E9`, Texte `#2E7D32`
+  - *Occasion* : Fond `#FFF3E0`, Texte `#E65100`
+  - *Offre d'emploi* : Fond `#E1F5FE`, Texte `#0288D1`
+  - *Service* : Fond `#EDE7F6`, Texte `#512DA8`
+
+---
+
+## 3. Layout & Structure du Catalogue Universel
+
+### A. Navigation Supérieure (Header)
+1. **Logo Atlas G-Market** (Lien vers accueil / catalogue global).
+2. **Barre de Recherche Omniprésente** :
+   - Champ texte principal avec autocomplétion.
+   - Sélecteur rapide de localisation (Ville / Région).
+   - Sélecteur de catégorie parente (Tout, Produits, Emploi, Immobilier, Services).
+   - Bouton de recherche avec icône loupe (`#E65100`).
+3. **Zone Utilisateur** : Bouton d'action proéminent `+ Publier une annonce`, Icône Messagerie (avec badge de notifications), Profil / Connexion.
+
+### B. Mégamenu & Catégories (Style Jumia / Alibaba)
+- **Menu Latéral à gauche (Desktop)** ou **Drawer/Carrousel (Mobile)** :
+  - 🛒 *Électronique & High-Tech* (Smartphones, Ordinateurs, Accessoires)
+  - 🚗 *Véhicules & Transport* (Voitures, Motos, Équipements)
+  - 🏠 *Immobilier* (Vente, Location, Bureaux)
+  - 💼 *Emploi & Recrutement* (CDI/CDD, Freelance, Stages)
+  - 🛠️ *Services & Prestations* (Dépannage, Cours, BTP, Événementiel)
+  - 👕 *Mode & Maison* (Vêtements, Meubles, Électroménager)
+- **Comportement Survol (Hover)** : Affiche un panneau étendu avec sous-catégories et filtres populaires.
+
+### C. Grille d'Annonces Universelle (Public Catalog)
+- **Vue Switcher** : Bascule possible entre **Vue Grille** (Cartes produits) et **Vue Liste** (Détaillée pour emplois/services).
+- **Carte d'Annonce Type (Product/Item Card)** :
+  - Ratio Image : 4:3 avec tag d'état en overlay (ex: "Occasion - Bon état" ou "CDI").
+  - Titre (2 lignes max avec ellipses).
+  - Prix ou Rémunération affiché en gras avec devise localisée.
+  - Localisation + Date de publication relative (ex: "Paris • Il y a 2h").
+  - Icône "Mise en favori" (Cœur interactif).
+
+---
+
+## 4. Spécification du Menu de Publication ("Dépôt d'Annonce")
+
+Le flux de publication est découpé en 3 étapes guidées pour maximiser la conversion :
