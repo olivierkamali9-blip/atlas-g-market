@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atlas G-market — Maquette Catalogue Universel</title>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-card: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-primary: #6366f1;
+      --accent-hover: #4f46e5;
+      --badge-offer: #10b981;
+      --badge-demand: #f59e0b;
+      --border-color: #475569;
+      --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo span {
+      color: var(--accent-primary);
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex: 1;
+      max-width: 600px;
+      margin: 0 2rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+    }
+
+    /* Layout Main */
+    .container {
+      display: flex;
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem;
+      gap: 1.5rem;
+    }
+
+    /* Sidebar Filtres */
+    aside {
+      width: 280px;
+      background-color: var(--bg-surface);
+      border-radius: 12px;
+      padding: 1.25rem;
+      border: 1px solid var(--border-color);
+      height: fit-content;
+    }
+
+    .filter-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+    }
+
+    .filter-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    /* Section Catalogue */
+    main {
+      flex: 1;
+    }
+
+    .catalog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      background-color: var(--bg-surface);
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .type-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background-color: var(--accent-primary);
+      color: #fff;
+    }
+
+    /* Cards Grid */
+    .grid-catalog {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background-color: var(--bg-surface);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 180px;
+      background-color: var(--bg-card);
+      object-fit: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      position: relative;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .badge-offre { background-color: var(--badge-offer); }
+    .badge-demande { background-color: var(--badge-demand); }
+
+    .card-body {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-category {
+      font-size: 0.75rem;
+      color: var(--accent-primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .card-price {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .card-location {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">🌐 Atlas <span>G-market</span></div>
+    <div class="search-bar">
+      <input type="text" class="search-input" placeholder="Que cherchez-vous ? (Produit, Emploi, Service, Logement...)">
+      <button class="btn btn-primary">Rechercher</button>
+    </div>
+    <button class="btn btn-primary">+ Publier une annonce</button>
+  </header>
+
+  <div class="container">
+    <aside>
+      <div class="filter-group">
+        <div class="filter-title">Type d'annonce</div>
+        <div class="filter-options">
+          <label class="filter-label"><input type="checkbox" checked> Toutes</label>
+          <label class="filter-label"><input type="checkbox"> Offres (Je vends / propose)</label>
+          <label class="filter-label"><input type="checkbox"> Demandes (Je cherche)</label>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Catégories</div>
+        <div class="filter-options">
+          <label class="filter-label"><input type="checkbox" checked> 📦 Produits & Bains</label>
+          <label class="filter-label"><input type="checkbox" checked> 💼 Emploi & Stages</label>
+          <label class="filter-label"><input type="checkbox" checked> 🛠️ Services & Prestations</label>
+          <label class="filter-label"><input type="checkbox" checked> 🏠 Immobilier</label>
+          <label class="filter-label"><input type="checkbox" checked> 🚗 Véhicules</label>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">État / Statut</div>
+        <div class="filter-options">
+          <label class="filter-label"><input type="checkbox"> Neuf</label>
+          <label class="filter-label"><input type="checkbox"> Occasion (Très bon état)</label>
+          <label class="filter-label"><input type="checkbox"> Temps Plein / Freelance</label>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="catalog-header">
+        <div>
+          <h2>Catalogue Général</h2>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">8 420 résultats disponibles</span>
+        </div>
+        <div class="type-tabs">
+          <button class="tab-btn active">Tous</button>
+          <button class="tab-btn">Offres</button>
+          <button class="tab-btn">Demandes</button>
+        </div>
+      </div>
+
+      <div class="grid-catalog">
+        <!-- Card 1: Produit (Offre) -->
+        <div class="card">
+          <div class="card-img">
+            <span class="card-badge badge-offre">OFFRE</span>
+            📷 Aperçu Image
+          </div>
+          <div class="card-body">
+            <div class="card-category">Produits & High-Tech</div>
+            <div class="card-title">MacBook Pro M2 - 16 Go RAM</div>
+            <div class="card-desc">Excellent état, garanti encore 6 mois. Vendu avec boite d'origine et chargeur d'origine.</div>
+            <div class="card-footer">
+              <div class="card-price">1 250 €</div>
+              <div class="card-location">📍 Paris (75)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Emploi (Offre) -->
+        <div class="card">
+          <div class="card-img">
+            <span class="card-badge badge-offre">OFFRE</span>
+            💼 Poste Développeur
+          </div>
+          <div class="card-body">
+            <div class="card-category">Emploi & Recruitment</div>
+            <div class="card-title">Développeur Fullstack React/Node</div>
+            <div class="card-desc">CDI Temps plein - Startup FinTech en plein essor. Télétravail partiel possible.</div>
+            <div class="card-footer">
+              <div class="card-price">45-52k €/an</div>
+              <div class="card-location">📍 Lyon (69)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Service (Demande) -->
+        <div class="card">
+          <div class="card-img">
+            <span class="card-badge badge-demande">DEMANDE</span>
+            🛠️ Recherche Prestataire
+          </div>
+          <div class="card-body">
+            <div class="card-category">Services & Dépannage</div>
+            <div class="card-title">Cherche Électricien certifié</div>
+            <div class="card-desc">Besoin urgent pour remise aux normes d'un tableau électrique dans un appartement T3.</div>
+            <div class="card-footer">
+              <div class="card-price">Sur devis</div>
+              <div class="card-location">📍 Bordeaux (33)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Immobilier (Offre) -->
+        <div class="card">
+          <div class="card-img">
+            <span class="card-badge badge-offre">OFFRE</span>
+            🏠 Appartement T2
+          </div>
+          <div class="card-body">
+            <div class="card-category">Immobilier</div>
+            <div class="card-title">Location T2 Lumineux 45m²</div>
+            <div class="card-desc">Proche de toutes commodités, cuisine équipée, balcon orienté sud. Libre immédiatement.</div>
+            <div class="card-footer">
+              <div class="card-price">780 €/mois</div>
+              <div class="card-location">📍 Nantes (44)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
