@@ -1,219 +1,170 @@
 import React, { useState } from 'react';
+import { AdCard, AdItem } from './AdCard';
 
-export interface CatalogItem {
-  id: string;
-  type: 'OFFER' | 'DEMAND';
-  category: string;
-  title: string;
-  price: string;
-  location: string;
-  condition: 'NEUF' | 'OCCASION' | 'SERVICE' | 'CDI/CDD';
-  image: string;
-  vendorName: string;
-  vendorBadge: 'Pro' | 'Particulier' | 'Vérifié';
-  phone: string;
-  publishedAt: string;
-}
-
-const SAMPLE_CATALOG: CatalogItem[] = [
+const SAMPLE_ADS: AdItem[] = [
   {
     id: '1',
-    type: 'OFFER',
-    category: 'electronics',
-    title: 'MacBook Pro M2 16" 512GB - État Neuf sous Garantie',
-    price: '1 450 000 FCFA',
-    location: 'Abidjan, Cocody',
-    condition: 'NEUF',
-    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80',
-    vendorName: 'G-Tech Store',
-    vendorBadge: 'Pro',
-    phone: '+2250700000001',
-    publishedAt: 'Il y a 10 min',
+    title: 'Poste Développeur Fullstack React / Node',
+    category: 'Emploi & CDI',
+    type: 'offre',
+    condition: 'emploi',
+    price: '45k - 55k €/an',
+    location: 'Paris (Télétravail)',
+    description: 'Nous recherchons un développeur motivé pour rejoindre notre équipe Atlas G-market.',
+    contactPhone: '+33 6 12 34 56 78',
+    contactEmail: 'recrutement@gtech.com',
+    createdAt: 'Aujourd\'hui',
   },
   {
     id: '2',
-    type: 'DEMAND',
-    category: 'jobs',
-    title: 'Recherche Développeur Fullstack React / Node.js urgent',
-    price: '600 000 FCFA / mois',
-    location: 'Dakar, Plateau / Télétravail',
-    condition: 'CDI/CDD',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80',
-    vendorName: 'Cabinet RH Sahel',
-    vendorBadge: 'Vérifié',
-    phone: '+221770000002',
-    publishedAt: 'Il y a 25 min',
+    title: 'MacBook Pro M2 16" 1To - Parfait État',
+    category: 'Informatique',
+    type: 'offre',
+    condition: 'occasion',
+    price: '1 850 €',
+    location: 'Lyon',
+    description: 'Ordinateur portable comme neuf, servi 4 mois. Facture et garantie fournies.',
+    contactPhone: '+33 6 98 76 54 32',
+    contactEmail: 'vendeur.mac@gmail.com',
+    createdAt: 'Hier',
   },
   {
     id: '3',
-    type: 'OFFER',
-    category: 'vehicles',
-    title: 'Toyota RAV4 2021 Automatique Climatisation d\'origine',
-    price: '14 500 000 FCFA',
-    location: 'Lomé, Zone Industrielle',
-    condition: 'OCCASION',
-    image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=400&q=80',
-    vendorName: 'Auto Direct Direct',
-    vendorBadge: 'Pro',
-    phone: '+22890000003',
-    publishedAt: 'Il y a 1h',
+    title: 'Recherche plombier pour rénovation salle de bain',
+    category: 'Services & BTP',
+    type: 'demande',
+    condition: 'service',
+    price: 'Sur devis',
+    location: 'Bordeaux',
+    description: 'Cherche un artisan qualifié pour poser une douche à l\'italienne dans le centre-ville.',
+    contactPhone: '+33 6 44 55 66 77',
+    contactEmail: 'client.bordeaux@yahoo.fr',
+    createdAt: 'Il y a 2 jours',
   },
   {
     id: '4',
-    type: 'DEMAND',
-    category: 'real_estate',
-    title: 'Cherche Appartement 3 Pièces à louer à Akwa',
-    price: 'Budget max 250 000 FCFA',
-    location: 'Douala, Akwa',
-    condition: 'SERVICE',
-    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&q=80',
-    vendorName: 'Marc A.',
-    vendorBadge: 'Particulier',
-    phone: '+237600000004',
-    publishedAt: 'Il y a 2h',
-  },
+    title: 'Appartement T3 meublé avec balcon',
+    category: 'Immobilier',
+    type: 'offre',
+    condition: 'occasion',
+    price: '950 €/mois',
+    location: 'Nantes',
+    description: 'Bel appartement traversant, proche des transports et des commerces.',
+    contactPhone: '+33 6 11 22 33 44',
+    contactEmail: 'immo.nantes@agence.fr',
+    createdAt: 'Il y a 3 jours',
+  }
 ];
 
 interface MixedCatalogProps {
-  selectedCategory: string | null;
-  onContactClick: (item: CatalogItem, mode: 'chat' | 'call') => void;
+  onOpenMessaging: (ad: AdItem) => void;
+  onSelectAd: (ad: AdItem) => void;
 }
 
-export const MixedCatalog: React.FC<MixedCatalogProps> = ({
-  selectedCategory,
-  onContactClick,
-}) => {
-  const [filterType, setFilterType] = useState<'ALL' | 'OFFER' | 'DEMAND'>('ALL');
+export const MixedCatalog: React.FC<MixedCatalogProps> = ({ onOpenMessaging, onSelectAd }) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('Toutes');
+  const [selectedType, setSelectedType] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const filteredItems = SAMPLE_CATALOG.filter((item) => {
-    const matchesCat = selectedCategory ? item.category === selectedCategory : true;
-    const matchesType = filterType === 'ALL' ? true : item.type === filterType;
-    return matchesCat && matchesType;
+  const categories = ['Toutes', 'Emploi & CDI', 'Informatique', 'Services & BTP', 'Immobilier', 'Véhicules', 'Maison & Jardin'];
+
+  const filteredAds = SAMPLE_ADS.filter((ad) => {
+    const matchCategory = selectedCategory === 'Toutes' || ad.category === selectedCategory;
+    const matchType = selectedType === 'all' || ad.type === selectedType;
+    const matchSearch = ad.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        ad.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        ad.location.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchCategory && matchType && matchSearch;
   });
 
   return (
-    <div className="flex-1 space-y-4">
-      {/* Filters Header */}
-      <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-gray-800 text-sm">Filtrer par type :</span>
-          <div className="inline-flex rounded-md shadow-sm" role="group">
-            <button
-              onClick={() => setFilterType('ALL')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-l-lg border ${
-                filterType === 'ALL'
-                  ? 'bg-emerald-600 text-white border-emerald-600'
-                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-              }`}
-            >
-              Tout ({SAMPLE_CATALOG.length})
-            </button>
-            <button
-              onClick={() => setFilterType('OFFER')}
-              className={`px-3 py-1.5 text-xs font-medium border-t border-b ${
-                filterType === 'OFFER'
-                  ? 'bg-emerald-600 text-white border-emerald-600'
-                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-              }`}
-            >
-              Offres (Ventes / Emplois)
-            </button>
-            <button
-              onClick={() => setFilterType('DEMAND')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-r-lg border ${
-                filterType === 'DEMAND'
-                  ? 'bg-emerald-600 text-white border-emerald-600'
-                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-              }`}
-            >
-              Demandes (Achats / Recherches)
-            </button>
-          </div>
-        </div>
+    <section className="py-8 bg-slate-50 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-r from-blue-700 to-indigo-800 rounded-2xl p-6 sm:p-8 text-white shadow-xl mb-8">
+          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight mb-2">
+            Atlas G-market — Le grand catalogue universel
+          </h1>
+          <p className="text-blue-100 text-sm sm:text-base max-w-2xl">
+            Tout chercher, tout proposer. Accédez directement aux offres, emplois, services et biens sans barrière.
+          </p>
 
-        <div className="text-xs text-gray-500">
-          Affichage de <span className="font-semibold text-gray-800">{filteredItems.length}</span> opportunités
-        </div>
-      </div>
-
-      {/* Grid of Catalog Items */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filteredItems.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden flex flex-col sm:flex-row"
-          >
-            {/* Thumbnail */}
-            <div className="relative sm:w-2/5 h-48 sm:h-auto bg-gray-100 flex-shrink-0">
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-full object-cover"
-              />
-              <span
-                className={`absolute top-2 left-2 px-2 py-0.5 text-[10px] font-bold rounded uppercase tracking-wider text-white ${
-                  item.type === 'OFFER' ? 'bg-emerald-600' : 'bg-amber-600'
-                }`}
+          <div className="mt-6 flex flex-col sm:flex-row gap-3">
+            <input
+              type="text"
+              placeholder="Ex: Développeur, MacBook, Plombier, Appartement..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-1 px-4 py-3 rounded-xl text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner"
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={() => setSelectedType('all')}
+                className={`px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${selectedType === 'all' ? 'bg-white text-blue-900' : 'bg-blue-800/60 text-white hover:bg-blue-800'}`}
               >
-                {item.type === 'OFFER' ? 'Offre' : 'Demande'}
-              </span>
-              <span className="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">
-                {item.condition}
-              </span>
-            </div>
-
-            {/* Details */}
-            <div className="p-4 flex-1 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
-                  <span>📍 {item.location}</span>
-                  <span>{item.publishedAt}</span>
-                </div>
-
-                <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 hover:text-emerald-700 cursor-pointer">
-                  {item.title}
-                </h3>
-
-                <p className="text-lg font-bold text-emerald-600 mt-2">
-                  {item.price}
-                </p>
-
-                <div className="mt-2 flex items-center gap-1.5 text-xs text-gray-600">
-                  <span className="font-medium text-gray-800">{item.vendorName}</span>
-                  <span
-                    className={`px-1.5 py-0.2 text-[10px] rounded font-semibold ${
-                      item.vendorBadge === 'Pro'
-                        ? 'bg-blue-100 text-blue-700'
-                        : item.vendorBadge === 'Vérifié'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-gray-100 text-gray-600'
-                    }`}
-                  >
-                    ✓ {item.vendorBadge}
-                  </span>
-                </div>
-              </div>
-
-              {/* Direct Contact Action Buttons */}
-              <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-2">
-                <button
-                  onClick={() => onContactClick(item, 'chat')}
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs py-2 px-3 rounded font-medium flex items-center justify-center gap-1 transition-colors"
-                >
-                  <span>💬</span> Message direct
-                </button>
-                <button
-                  onClick={() => onContactClick(item, 'call')}
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs py-2 px-3 rounded font-medium flex items-center justify-center gap-1 transition-colors"
-                  title="Appeler ou WhatsApp"
-                >
-                  <span>📞</span> Appeler
-                </button>
-              </div>
+                Tous
+              </button>
+              <button
+                onClick={() => setSelectedType('offre')}
+                className={`px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${selectedType === 'offre' ? 'bg-white text-blue-900' : 'bg-blue-800/60 text-white hover:bg-blue-800'}`}
+              >
+                Offres
+              </button>
+              <button
+                onClick={() => setSelectedType('demande')}
+                className={`px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${selectedType === 'demande' ? 'bg-white text-blue-900' : 'bg-blue-800/60 text-white hover:bg-blue-800'}`}
+              >
+                Demandes
+              </button>
             </div>
           </div>
-        ))}
+        </div>
+
+        <div className="flex overflow-x-auto gap-2 pb-4 mb-6">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
+                selectedCategory === cat
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-bold text-slate-800">
+            {filteredAds.length} annonce(s) disponible(s) en accès libre
+          </h2>
+          <span className="text-xs text-slate-500">Contact direct & messagerie instantanée</span>
+        </div>
+
+        {filteredAds.length === 0 ? (
+          <div className="text-center py-16 bg-white rounded-2xl border border-slate-200">
+            <p className="text-slate-500 font-medium">Aucune annonce ne correspond à votre recherche.</p>
+            <button
+              onClick={() => { setSelectedCategory('Toutes'); setSelectedType('all'); setSearchQuery(''); }}
+              className="mt-4 text-xs font-semibold text-blue-600 hover:underline"
+            >
+              Réinitialiser les filtres
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredAds.map((ad) => (
+              <AdCard
+                key={ad.id}
+                ad={ad}
+                onOpenMessaging={onOpenMessaging}
+                onSelectAd={onSelectAd}
+              />
+            ))}
+          </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 };
