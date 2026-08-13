@@ -1,22 +1,30 @@
 import { Request, Response, NextFunction } from 'express';
 
-export const ageVerification = (req: Request, res: Response, next: NextFunction) => {
-  const birthDate = req.body.birthDate;
-  if (!birthDate) {
-    return res.status(400).json({ error: 'Birth date is required' });
+// Catégories nécessitant une vérification de la majorité (18+)
+export const ADULT_RESTRICTED_CATEGORIES = [
+  'adult_products',
+  'alcohol_tobacco',
+  'services_18plus',
+  'jobs_sensitive'
+];
+
+export const checkAgeForRestrictedCategories = (req: Request, res: Response, next: NextFunction) => {
+  const { category } = req.body;
+  const user = (req as any).user;
+
+  if (!user) {
+    return res.status(401).json({
+      error: 'Accès refusé. Vous devez être connecté pour publier une annonce sur Atlas G-market.'
+    });
   }
 
-  const birthDateObj = new Date(birthDate);
-  const today = new Date();
-  const age = today.getFullYear() - birthDateObj.getFullYear();
-  const monthDiff = today.getMonth() - birthDateObj.getMonth();
-
-  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDateObj.getDate())) {
-    age--;
-  }
-
-  if (age < 18) {
-    return res.status(403).json({ error: 'You must be at least 18 years old to access this service' });
+  if (category && ADULT_RESTRICTED_CATEGORIES.includes(category)) {
+    const isAdult = user.isAdult || (user.age && user.age >= 18);
+    if (!isAdult) {
+      return res.status(403).json({
+        error: 'Cette catégorie exige la majorité légale (18 ans et plus).'
+      });
+    }
   }
 
   next();
